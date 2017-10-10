@@ -11,29 +11,21 @@ Simple Spring Boot application that exposes an API to manage user Profile. The i
 * Version
 0.0.1
 
-### How do I get set up? ###
+### How do I get started? ###
 
-* Summary of set up
+* Clone the repo: `git clone https://github.com/jmiddleton/profile-service.git`
 
-Clone the repo: https://github.com/jmiddleton/profile-service.git
+* `cd profile-service`
 
-`cd profile-service`
+* To build the application execute `mvn clean install`
 
-* Building the application
+* To execute the application run `java -jar -Djava.security.egd=file:/dev/./urandom -jar target/profile-service.jar`
 
-To build the application execute `mvn clean install`
+* Open Postman, import the collection `src/test/resources/Profile-Service.postman_collection` and run the tests as follows:
 
-* Execution
 
-To execute the application run `java -jar -Djava.security.egd=file:/dev/./urandom -jar target/profile-service.jar`
-
-* Postman script
-
-Open Postman and import the collection src/test/resources/Profile-Service.postman_collection.
-Runs the tests in the following order:
-
-* Create: Create a profile and get the profileId
-* Get: Using profileId, get the profile details
-* Update: Update the profile
-* Get: Retrieve the new profile using profileId
-* Delete: Delete the profileId
+1. Create: Create a profile and get the profileId
+1. Get: Using profileId, get the profile details
+1. Update: Update the profile
+1. Get: Retrieve the new profile using profileId
+1. Delete: Delete the profileId
