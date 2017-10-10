@@ -1,0 +1,396 @@
+swagger: '2.0'
+info:
+  version: 1.1.0
+  title: Profile Service API Reference
+  description:  |
+    ## Introduction
+    Profile Service REST API allows customers to create, retrieve, delete or update member details. This API can be used by any client that support OAuth 2.0 security model.
+    
+    ## Requests
+    The API is based on REST principles. The information is accessed via standard HTTP requests. Where possible, the API uses appropriate HTTP verbs for each action:
+
+    Verb  | Description
+    ---------------|-------------
+    GET | Get is used to retrieve a customer profile. 
+    POST | Post is used to create a customer profile
+    PUT | Put is used to update/replace a customer profile. 
+    DELETE | Delete is used for deleting a profile.
+
+    ## Endpoints
+      Profile Service REST API is provided via the following endpoint:
+      
+      `https://api.qantas.com.au/v1/profile`
+    
+    ## Access to the API
+    All requests to the Profile Service API require authorization; the user needs to authenticate before trying to access the API. OAuth 2.0 is used for mobile and web application. To access the user profile, the request `Authorization` header must include a valid access token. 
+    
+    The below example shows how to set the header:
+    
+    `Authorization: Bearer {bearer_token}`
+    
+    ## Requests and Responses
+    ### Request IDs
+    Every transactions will contain the header `X-Request-Id`. The client can set one otherwise the API Gateway will generate one for you. This header is used to track the transaction end to end.
+    
+    ### Errors
+    The API uses standard HTTP status codes to indicate the success or failure of the API call. The body of the response will be JSON in the following format:
+    
+    ```
+    {
+      "errorCode": "profile.notfound",
+      "errorMessage": "Profile details not found"
+    }
+    ```
+
+    ### Response Status Codes
+    
+      Status Code  | Description
+    ---------------|-------------
+    200 | OK. The request has succeeded. The response body contains detailed information of a member.
+    400 | Bad Request. The request could not be understood by the server due to malformed syntax. The message body will contain more information about the error.
+    401 | Unauthorized. The request requires authentication or the authorization has been refused.
+    404 | Not Found. The provided member identifier is not valid or the status of the member is not active.
+    500 | Internal Server Error. This error usually occurs when the system is not in stable state.
+    
+host: api.services.qantas.com.au
+basePath: /v1
+schemes:
+  - https
+paths:
+  /profile/:
+    get:
+      description: |
+        Get detailed profile information about the current user.
+      operationId: getProfile
+      produces:
+        - application/json
+      parameters:
+        - name: Content-Type
+          in: header
+          type: string
+          description: Required. Valid value is `application/json`
+        - name: Authorization
+          in: header
+          type: string
+          description: Required. A valid access token. The token must be Bearer token.
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: The unique string identifying the request.
+        - name: Cache-Control
+          in: header
+          description: This header allows the client to specify which version of member details is happy to receive. If max-age=0 is set, the server will reply with a fresh version of the Profile.
+          type: string
+      responses:
+        '200':
+          description: OK. The request has succeeded. The response body contains detailed information of a member.
+          schema:
+            $ref: '#/definitions/Profile'
+        '400':
+          description: Bad Request. The request could not be understood by the server due to malformed syntax. The message body will contain more information about the error.
+          schema:
+            $ref: '#/definitions/ApiError'
+        '401':
+          description: Unauthorized. The request requires authentication or the authorization has been refused.
+          schema:
+            $ref: '#/definitions/ApiError'
+        '404':
+          description: Not Found. The provided profile identifier is not valid or the status of the profile is not active.
+          schema:
+            $ref: '#/definitions/ApiError'
+        '500':
+          description: Internal Server Error. This error usually occurs when the system is not in stable state.
+          schema:
+            $ref: '#/definitions/ApiError'
+
+    put:
+      description: Endpoint to update profile details. The information provided will be merged with the existing details.
+      operationId: updateProfile
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: Required. A valid access token. The token must be Bearer token.
+        - name: profile
+          in: body
+          description: Updated profile details.
+          schema:
+            $ref: '#/definitions/Profile'
+          required: true
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: Transaction identifier
+      responses:
+        '200':
+          description: The information has been processed.
+        '400':
+          description: Invalid Parameters. The request message is incorrect.
+          schema:
+            $ref: '#/definitions/ApiError'
+        '500':
+          description: Internal Server Error. This error usually occurs when the system is not in stable state.
+          schema:
+            $ref: '#/definitions/ApiError'
+  
+    post:
+      description: Endpoint to create a customer Profile.
+      operationId: createProfile
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: Required. A valid access token. The token must be Bearer token.
+        - name: profile
+          in: body
+          description: Profile created including profileId.
+          schema:
+            $ref: '#/definitions/Profile'
+          required: true
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: Transaction identifier
+      responses:
+        '200':
+          description: The information has been processed.
+          schema:
+            $ref: '#/definitions/ProfileInfo'
+        '400':
+          description: Invalid Parameters. The request message is incorrect.
+          schema:
+            $ref: '#/definitions/ApiError'
+        '500':
+          description: Internal Server Error. This error usually occurs when the system is not in stable state.
+          schema:
+            $ref: '#/definitions/ApiError'
+
+    delete:
+      description: Endpoint to delete a customer Profile.
+      operationId: deleteProfile
+      produces:
+        - application/json
+      parameters:
+        - name: Authorization
+          in: header
+          type: string
+          description: Required. A valid access token. The token must be Bearer token.
+        - name: X-Request-Id
+          in: header
+          type: string
+          description: Transaction identifier
+      responses:
+        '200':
+          description: The information has been processed.
+        '400':
+          description: Invalid Parameters. The request message is incorrect.
+          schema:
+            $ref: '#/definitions/ApiError'
+        '500':
+          description: Internal Server Error. This error usually occurs when the system is not in stable state.
+          schema:
+            $ref: '#/definitions/ApiError'
+
+definitions:
+  ProfileInfo:
+    type: object
+    description: Provide detailed information about the profile created.
+    properties:
+      profileId:
+        type: string
+        maxLength: 10
+        description: The profile identifier
+  Profile:
+    type: object
+    description: Provide detailed information about the profile.
+    properties:
+      profileId:
+        type: string
+        maxLength: 10
+        description: The profile identifier
+      firstName:
+        type: string
+        description: First name of the member
+        maxLength: 50
+      preferredName:
+        type: string
+        description: Preferred name of the member
+        maxLength: 50
+      lastName:
+        type: string
+        description: Last name of the member
+        minLength: 2
+        maxLength: 50
+      salutation:
+        type: string
+        description: Salutation used in communication letters, emails, etc. This value is read only.
+      title:
+        type: string
+        description: Title of the member
+        minLength: 1
+        maxLength: 12
+      gender:
+        type: string
+        description: Gender of the member.
+        enum:
+          - MALE
+          - FEMALE
+          - UNKNOWN
+      dateOfBirth:
+        type: string
+        description: Date of birth of the member
+        format: date
+      dateOfJoining:
+        type: string
+        description: Date of join to Qantas Frequent Flyer
+        format: date
+      email:
+        type: string
+        description: Member email address. If might the preferred one or the first found in the system
+        minLength: 2
+        maxLength: 100
+      countryOfResidency:
+        type: string
+        description: Country of residency of the member
+        maxLength: 2
+        pattern: '[A-Z]{2}'
+      membershipStatus:
+        type: string
+        description: Status of the membership
+        enum:
+          - ACTIVE
+          - CLOSED
+          - DECEASED
+          - BLACKLISTED
+      phoneDetails:
+        type: array
+        items:
+          $ref: '#/definitions/PhoneDetails'
+      addresses:
+        type: array
+        items:
+          $ref: '#/definitions/Address'
+      preferences:
+        $ref: '#/definitions/Preferences'
+
+  PhoneDetails:
+    type: object
+    required:
+      - type
+      - number
+      - countryCode
+    properties:
+      type:
+        $ref: '#/definitions/PhoneTypeEnum'
+      number:
+        type: string
+        maxLength: 12
+        description: Phone number
+      areaCode:
+        type: string
+        maxLength: 5
+        description: Defines the Area Code. This value is not required for mobile phones
+      countryCode:
+        type: string
+        maxLength: 5
+        description: IDD or country code
+        
+  Address:
+    type: object
+    required:
+      - lineOne
+      - suburb
+      - postCode
+      - state
+      - countryCode
+    properties:
+      type:
+        $ref: '#/definitions/TypeEnum'
+      lineOne:
+        type: string
+        minLength: 1
+        maxLength: 50
+        description: Address first line
+      lineTwo:
+        type: string
+        maxLength: 50
+        description: Address second line
+      suburb:
+        type: string
+        minLength: 1
+        maxLength: 50
+        description: Suburb/Town/City where the member lives.
+      postCode:
+        type: string
+        maxLength: 10
+        description: Postal code of the address
+      state:
+        type: string
+        maxLength: 50
+        description: State or city of the postal address
+      countryCode:
+        type: string
+        minLength: 1
+        maxLength: 3
+        description: Country code of the postal address as defined by ISO Alpha-2
+        
+  Preferences:
+    type: object
+    properties:
+      marketResearch:
+        type: boolean
+        description: Defines if the member participates in market research 
+      digitalAdvertising:
+        type: boolean
+        description: Defines if the member wants to receive digital advertising
+      statementPreference:
+        type: string
+        description: Defines Statement preference. The possible values are Online or Paper.
+        enum:
+          - ONLINE
+          - PAPER
+
+  ApiError:
+    type: object
+    properties:
+      errorCode:
+        type: string
+      errorMessage:
+        type: string
+      fieldErrorMessages:
+        type: array
+        items:
+          $ref: '#/definitions/ApiFieldError'
+
+  ApiFieldError:
+    type: object
+    properties:
+      field:
+        type: string
+        description: The field that has failed validation
+      errorMessage:
+        type: string
+        description: Message describing the error
+
+  TypeEnum:
+        type: string
+        description: Address or Email type
+        enum:
+          - HOME
+          - BUSINESS
+
+  PhoneTypeEnum:
+        type: string
+        description: Phone Type Indicator i.e. home, business or mobile.
+        enum:
+          - HOME
+          - BUSINESS
+          - MOBILE

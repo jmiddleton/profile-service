@@ -1,0 +1,105 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Profile-Service",
+		"_postman_id": "4c1006c6-3daa-5488-a339-ab8ca750af80",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create",
+			"request": {
+				"url": "http://localhost:8080/api/profile",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "nothing",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"ASPASIA S\",\n    \"preferredName\": \"SUSAN\",\n    \"lastName\": \"MCGEE\",\n    \"salutation\": \"Dear Ms McGee\",\n    \"title\": \"MS\",\n    \"gender\": \"FEMALE\",\n    \"dateOfBirth\": \"1963-11-16\",\n    \"dateOfJoining\": \"2001-10-12\",\n    \"email\": \"ibssusanmcgee@outlook.com.au\",\n    \"phoneDetails\": [\n        {\n            \"type\": \"MOBILE\",\n            \"number\": \"274766\",\n            \"areaCode\": \"0437\",\n            \"countryCode\": \"+61\"\n        },\n        {\n            \"type\": \"HOME\",\n            \"number\": \"63433303\",\n            \"areaCode\": \"03\",\n            \"countryCode\": \"+61\"\n        }\n    ],\n    \"addresses\": [\n        {\n            \"type\": \"HOME\",\n            \"lineOne\": \"48 BALFOUR STREET\",\n            \"suburb\": \"LAUNCESTON\",\n            \"postCode\": \"7250\",\n            \"state\": \"TAS\",\n            \"countryCode\": \"AU\"\n        }\n    ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"url": "http://localhost:8080/api/profile/08f5316b-6d",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "nothing",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"RAUL\",\n    \"preferredName\": \"SUSAN\",\n    \"lastName\": \"MCGEE\",\n    \"salutation\": \"Dear Ms McGee\",\n    \"title\": \"MS\",\n    \"gender\": \"FEMALE\",\n    \"dateOfBirth\": \"1963-11-16\",\n    \"dateOfJoining\": \"2001-10-12\",\n    \"email\": \"ibssusanmcgee@outlook.com.au\",\n    \"phoneDetails\": [\n        {\n            \"type\": \"MOBILE\",\n            \"number\": \"274766\",\n            \"areaCode\": \"0437\",\n            \"countryCode\": \"+61\"\n        },\n        {\n            \"type\": \"HOME\",\n            \"number\": \"63433303\",\n            \"areaCode\": \"03\",\n            \"countryCode\": \"+61\"\n        }\n    ],\n    \"addresses\": [\n        {\n            \"type\": \"HOME\",\n            \"lineOne\": \"48 BALFOUR STREET\",\n            \"suburb\": \"LAUNCESTON\",\n            \"postCode\": \"7250\",\n            \"state\": \"TAS\",\n            \"countryCode\": \"AU\"\n        }\n    ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get",
+			"request": {
+				"url": "http://localhost:8080/api/profile/08f5316b-6",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "nothing",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"url": "http://localhost:8080/api/profile/0663c4f2-4dd",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "nothing",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

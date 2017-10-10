@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+	<springProfile name="local, default">
+		<include resource="org/springframework/boot/logging/logback/base.xml" />
+		
+		<logger name="org.springframework.ws.client.core" level="DEBUG" />
+		<logger name="org.springframework.ws.client.MessageTracing" level="TRACE" />
+		<logger name="org.springframework.ws.transport.http" level="DEBUG" />
+		<logger name="org.apache.http" level="DEBUG" />
+	</springProfile>
+
+	<logger name="au.com.qantas.profile" level="DEBUG" />
+	<logger name="org.springframework" level="INFO" />
+	<logger name="springfox.documentation" level="ERROR" />
+	<logger name="org.springframework.aop" level="ERROR" />
+	<logger name="uk.co.jemos.podam.api" level="ERROR" />
+
+	<root level="INFO">
+		<appender-ref ref="CONSOLE" />
+	</root>
+</configuration>

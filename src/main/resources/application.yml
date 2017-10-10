@@ -1,0 +1,13 @@
+--- 
+
+spring:
+  profiles:
+    default: local
+  jackson:
+    default-property-inclusion: NON_EMPTY
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+logging:
+  config: classpath:logback-spring.xml
+
