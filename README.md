@@ -5,11 +5,9 @@ This API can be used by any client that support OAuth 2.0 security model.
 
 ### What is this repository for? ###
 
-* Quick summary
-Simple Spring Boot application that exposes an API to manage user Profile. The information is stored in memory.
+This repository demostrates a simple Spring Boot application that exposes an API to manage user Profile. Currently, the information is stored in memory but the code is extensible to any backend system.
 
-* Version
-0.0.1
+Version 0.0.1
 
 ### How do I get started? ###
 
